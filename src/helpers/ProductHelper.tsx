@@ -17,10 +17,20 @@ export function plus(x, y) {
     return x / y;
   }
 
-  export function getAllProducts()
+  export interface IProductGetParam {
+    pageNumber: number;
+    pageSize: number;
+    columnToSort: string;
+    sortDirection: number;
+  }
+
+
+  
+  export function getAllProducts(productGetParam)
   {
-     return axios.get('http://localhost:2553/api/product/').then(o=>{
+     return axios.get('http://localhost:2553/api/product/', {params:productGetParam}).then(o=>{
          return o.data;
      });
   }
+
 

@@ -69,7 +69,10 @@
     "webpack-merge": "^5.8.0"
   },
   "dependencies": {
+    "@material-ui/core": "^4.12.2",
+    "@material-ui/lab": "^4.0.0-alpha.60",
     "axios": "^0.21.1",
+    "react-icons": "^4.2.0",
     "react-modal": "^3.14.3"
   }
 }

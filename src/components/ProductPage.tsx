@@ -1,35 +1,63 @@
-import {getAllProducts} from "../helpers/ProductHelper"
+import {getAllProducts, IProductGetParam} from "../helpers/ProductHelper"
 import React, { useEffect } from 'react'
 import { hot } from "react-hot-loader";
 import { Table } from "../common/Table";
-import { IProduct, Product } from "./Product";
+import { Product } from "./Product";
 import Modal from 'react-modal';
+import { CpuInfo } from "os";
+import { FaChevronUp, FaChevronDown } from 'react-icons/fa';
+import Pagination from '@material-ui/lab/Pagination';
 
 const axios = require('axios');
 
 
 export interface IProductPage {
-  CustomerId: number;
+  CustomerId: number; //to remove
 }
+
+export interface IProduct {
+  productID: number;
+  name: string;
+  price: number;
+  type: number;
+  active: boolean;
+}
+
+
+export interface IProductTableInfo {
+  numberOfPages : number,
+  products : IProduct[],
+}
+
 
 export const ProductPage: React.FunctionComponent<IProductPage> = ({CustomerId }) => {
 
-  const  initialiseProducts = () => {
-    // axios.get('http://localhost:2553/api/product/').then(o=>{
-    //   setProducts(JSON.stringify(o));
-    // })
+   const defaultParam = {
+      pageNumber: 1,
+      pageSize: 5,
+      columnToSort: "Name",
+      sortDirection: 1,
+  } as IProductGetParam;
 
-    getAllProducts().then(o=>{
+  const defaulProducTableInfo = {
+    numberOfPages : 0,
+    products: []
+  } as IProductTableInfo;
+
+  const  getProducts = () => {
+    getAllProducts(pageParam).then(o=>{
       console.log(JSON.stringify(o));
-         setProducts(o)});
+         setProductsTableInfo(o)});
   }
 
   //const [customID, setCusetomerId] = React.useState<number>(CustomerId);
-  const [products, setProducts] = React.useState<IProduct []>([]);
+  const [productsTableInfo, setProductsTableInfo] = React.useState<IProductTableInfo>(defaulProducTableInfo);
   const [isCreating, setIsCreating] = React.useState<boolean>(false); //todo isCreatingUpdate
+  const [pageParam, setPageParam] = React.useState<IProductGetParam>(defaultParam);
+
   useEffect(() => {
-    initialiseProducts();
-  }, [])
+    getProducts();
+  }, [pageParam])
 
 
   const createProduct = () =>{
@@ -47,6 +75,13 @@ export const ProductPage: React.FunctionComponent<IProductPage> = ({CustomerId }
   const closeModal = () =>{
     
   }
+  const sortRows = (columnToSort: string) =>{    
+    setPageParam({...pageParam, pageNumber:1, sortDirection: pageParam.sortDirection ? 0 : 1, columnToSort})
+  }
+
+  const handlePageChange = (event: React.ChangeEvent<unknown>, page: number) =>{
+    setPageParam({...pageParam, pageNumber: page})
+  }
 
   const customStyles = {
     content: {
@@ -58,24 +93,22 @@ export const ProductPage: React.FunctionComponent<IProductPage> = ({CustomerId }
       transform: 'translate(-50%, -50%)',
     },
   };
-  
+
   return (
     
   <div>
     {!isCreating ? 
     <div>
       <button onClick={createProduct}>Create Product</button>
-      <Table  head={<tr>
-          <th scope="col">ProductID</th>
-          <th scope="col">Name</th>
-          <th scope="col">Price</th>
-          <th scope="col">Type</th>
-          <th scope="col">Active</th>
-      </tr>}>
+      <Table columnNames = {["ProductID", "Name", "Price", "Type", "Active"]} 
+        sortedColumnName={pageParam.columnToSort} 
+        isAscending={pageParam.sortDirection ? true : false}
+        onClickHeader={sortRows}>
       <>
-        {products.map((product, i) => <Product key={i} {...product} />)}
+        {productsTableInfo.products.map((product, i) => <Product key={i} {...product} />)}
       </>
       </Table>
+      <Pagination count={productsTableInfo.numberOfPages} page={pageParam.pageNumber}  shape="rounded" onChange={handlePageChange} />
     </div>:
     <div>
       CREATING!
@@ -84,11 +117,11 @@ export const ProductPage: React.FunctionComponent<IProductPage> = ({CustomerId }
     </div>}
 
     <Modal
-      isOpen={true}
+      isOpen={false}
       onAfterOpen={afterOpenModal}
       onRequestClose={closeModal}
       style={customStyles}
-      contentLabel="Example Modal"
+      contentLabel="Are you sure you want to Delete?"
     >
       Im a modal!
     </Modal>
