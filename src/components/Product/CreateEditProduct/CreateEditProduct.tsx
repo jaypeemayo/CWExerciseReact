@@ -4,7 +4,7 @@ import { ICreateEditProduct } from ".";
 import { IProduct } from "..";
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-export const CreateEditProduct: React.FunctionComponent<ICreateEditProduct> = ({ OnSavedProduct, CloseCreateUpdate, productToEdit }) => {
+export const CreateEditProduct: React.FunctionComponent<ICreateEditProduct> = ({ OnSavedProduct, OnCloseCreateUpdate, productToEdit }) => {
   const initialiseProduct = () => {
     if (productToEdit) {
       return productToEdit;
@@ -74,8 +74,6 @@ export const CreateEditProduct: React.FunctionComponent<ICreateEditProduct> = ({
         </div>
         <div className="modal-body">
           <form>
-
-
             <div className="form-group pb-3">
               <label htmlFor="name">Name:</label>{" "}
               <input className="form-control" defaultValue={product.name} onChange={handleNameChange} maxLength={10} type="text" name="name" id="name" />
@@ -105,7 +103,7 @@ export const CreateEditProduct: React.FunctionComponent<ICreateEditProduct> = ({
         </div>
 
         <div className="modal-footer">
-          <button className="btn btn-secondary" onClick={CloseCreateUpdate}>Close</button>
+          <button className="btn btn-secondary" onClick={OnCloseCreateUpdate}>Close</button>
           <button className="btn btn-primary" onClick={handleSave}>Save</button>
         </div>
       </div>

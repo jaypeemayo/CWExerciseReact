@@ -2,14 +2,8 @@ import * as React from "react";
 import { FaChevronUp, FaChevronDown } from "react-icons/fa";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import BTable from 'react-bootstrap/Table';
+import { ITable } from ".";
 
-export interface ITable {
-    children: any;
-    columnNames: string[];
-    sortedColumnName: string;
-    isAscending: boolean;
-    onClickHeader(columName: string): void;
-}
 
 const renderChevron = (props: ITable, columName: string) => {
     if (props.sortedColumnName === columName) {

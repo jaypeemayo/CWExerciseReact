@@ -19,7 +19,6 @@ const customStyles = {
     },
 };
 
-
 export const MessageBox = (props: React.PropsWithChildren<IMessageBox>) => {
     return <Modal style={customStyles} isOpen={true} ariaHideApp={false} >
         <div className="modal-content" role="dialog" id="messsageBox" aria-labelledby="messageBoxLabel">

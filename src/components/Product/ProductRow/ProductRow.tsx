@@ -1,3 +1,4 @@
+import React from "react";
 import { IProductRow } from ".";
 import { FaEdit, FaTrash } from "react-icons/fa";
 import "bootstrap/dist/css/bootstrap.min.css";

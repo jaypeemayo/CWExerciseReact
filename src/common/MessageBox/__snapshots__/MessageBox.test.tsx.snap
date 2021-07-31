@@ -1,0 +1,36 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Test snapshot 1`] = `
+<div>
+  <div>
+    <div
+      aria-labelledby="messageBoxLabel"
+      class="modal-content"
+      id="messsageBox"
+      role="dialog"
+    >
+      <div
+        class="modal-header"
+      >
+        <h5
+          id="messageBoxLabel"
+        >
+          Test Title
+        </h5>
+      </div>
+      <div
+        class="modal-body"
+      >
+        <p />
+      </div>
+      <div
+        class="modal-footer"
+      >
+        <button>
+          test Buttonset
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+`;

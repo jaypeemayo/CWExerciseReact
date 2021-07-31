@@ -1,7 +1,7 @@
 import { IProduct } from "..";
-
+import configData from "../../../../configs/config.json";
 const axios = require('axios');
-
+const baseApiUrl = `${configData.SERVER_URL}/api`; 
 export interface IProductGetParam {
    pageNumber: number;
    pageSize: number;
@@ -10,14 +10,14 @@ export interface IProductGetParam {
 }
 
 export function getAllProducts(productGetParam) {
-   return axios.get('http://localhost:5000/api/product/', { params: productGetParam }).then(o => {
+   return axios.get(`${baseApiUrl}/product/`, { params: productGetParam }).then(o => {
       return o.data;
    });
 }
 
 
 export function createProduct(product: IProduct) {
-   return axios.post('http://localhost:5000/api/product/', JSON.stringify(product), {
+   return axios.post(`${baseApiUrl}/product/`, JSON.stringify(product), {
       headers: {
          'Content-Type': 'application/json'
       }
@@ -27,13 +27,13 @@ export function createProduct(product: IProduct) {
 }
 
 export function deleteProduct(productID: number) {
-   return axios.delete(`http://localhost:5000/api/product/${productID}`).then(o => {
+   return axios.delete(`${baseApiUrl}/product/${productID}`).then(o => {
       return o.data;
    });
 }
 
 export function updateProduct(product: IProduct) {
-   return axios.put(`http://localhost:5000/api/product/${product.productID}`, JSON.stringify(product), {
+   return axios.put(`${baseApiUrl}/product/${product.productID}`, JSON.stringify(product), {
       headers: {
          'Content-Type': 'application/json'
       }

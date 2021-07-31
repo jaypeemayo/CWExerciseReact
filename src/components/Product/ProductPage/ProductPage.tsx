@@ -1,10 +1,10 @@
 import { createProduct, deleteProduct, getAllProducts, IProductGetParam, updateProduct } from "../helpers/ProductHelper"
 import React, { useEffect } from 'react'
-import { Table } from "../../../common/Table";
+import { Table } from "../../../common/Table/Table";
 import { ProductRow } from "../ProductRow/ProductRow";
 import Pagination from '@material-ui/lab/Pagination';
 import { CreateEditProduct } from "../CreateEditProduct/CreateEditProduct";
-import { MessageBox } from "../../../common/MessageBox";
+import { MessageBox } from "../../../common/MessageBox/MessageBox";
 import { IProduct } from "..";
 import { IProductTableInfo } from ".";
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -47,7 +47,7 @@ export const ProductPage: React.FunctionComponent = () => {
   }
 
   const showCreateEditProduct = (productToEdit: IProduct) => {
-    return setModal(<CreateEditProduct productToEdit={productToEdit} CloseCreateUpdate={() => { setModal(null); }} OnSavedProduct={handleSaveProduct} />);
+    return setModal(<CreateEditProduct productToEdit={productToEdit} OnCloseCreateUpdate={() => { setModal(null); }} OnSavedProduct={handleSaveProduct} />);
   }
 
   const handleSaveProduct = (isCreating: boolean, product: IProduct) => {
