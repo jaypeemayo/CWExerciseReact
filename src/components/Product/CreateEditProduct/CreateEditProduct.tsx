@@ -2,6 +2,7 @@ import React from "react";
 import Modal from "react-modal";
 import { ICreateEditProduct } from ".";
 import { IProduct } from "..";
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 export const CreateEditProduct: React.FunctionComponent<ICreateEditProduct> = ({ OnSavedProduct, CloseCreateUpdate, productToEdit }) => {
   const initialiseProduct = () => {
@@ -53,39 +54,61 @@ export const CreateEditProduct: React.FunctionComponent<ICreateEditProduct> = ({
       right: "auto",
       bottom: "auto",
       marginRight: "-50%",
-      transform: "translate(-50%, -50%)"
+      transform: "translate(-50%, -50%)",
+      padding: "0px",
+      width: "400px",
     }
   };
 
-  return (<Modal isOpen={true} style={customStyles}>
-    <div>
-      <div>
-        {
-          productToEdit === null
-            ? "Create Product"
-            : "Update Product"
-        }
+  return (
+    <Modal ariaHideApp={false} isOpen={true} style={customStyles}>
+      <div className="modal-content">
+        <div className="modal-header">
+          <h5>
+            {
+              productToEdit === null
+                ? "Create Product"
+                : "Update Product"
+            }
+          </h5>
+        </div>
+        <div className="modal-body">
+          <form>
+
+
+            <div className="form-group pb-3">
+              <label htmlFor="name">Name:</label>{" "}
+              <input className="form-control" defaultValue={product.name} onChange={handleNameChange} maxLength={10} type="text" name="name" id="name" />
+            </div>
+
+            <div className="form-group pb-3">
+              <label htmlFor="price">Price:</label>{" "}
+              <input className="form-control" onChange={handleNumberChange} value={product.price} type="number" name="price" id="price" step='0.01' placeholder='0.00' />
+            </div>
+
+            <div className="form-group pb-3">
+              <label id="type">Type</label>
+              <select className="form-control" value={product.type} onChange={handleTypeChange}>
+                <option value="1">Books</option>
+                <option value="2">Electronics</option>
+                <option value="3">Food</option>
+                <option value="4">Furniture</option>
+                <option value="5">Toys</option>
+              </select>
+            </div>
+
+            <div className="form-check">
+              <input className="form-check-input" defaultChecked={product.active} onChange={handleActiveChange} type="checkbox" name="active" id="active" />
+              <label htmlFor="active">Active</label>
+            </div>
+          </form>
+        </div>
+
+        <div className="modal-footer">
+          <button className="btn btn-secondary" onClick={CloseCreateUpdate}>Close</button>
+          <button className="btn btn-primary" onClick={handleSave}>Save</button>
+        </div>
       </div>
-      <label htmlFor="name">Name:</label>{" "}
-      <input defaultValue={product.name} onChange={handleNameChange} maxLength={10} type="text" name="name" id="name" />
-      <br></br>
-      <label htmlFor="price">Price:</label>{" "}
-      <input   onChange={handleNumberChange} value={product.price} type="number" name="price" id="price" step='0.01' placeholder='0.00'  />
-      <br></br>
-      <label id="type">Type</label>
-      <select defaultValue={product.type} value={product.type} onChange={handleTypeChange}>
-        <option value="1">Books</option>
-        <option value="2">Electronics</option>
-        <option value="3">Food</option>
-        <option value="4">Furniture</option>
-        <option value="5">Toys</option>
-      </select>
-      <br></br>
-      <label htmlFor="active">Active:</label>{" "}
-      <input defaultChecked={product.active}  onChange={handleActiveChange} type="checkbox" name="active" id="active" />
-      <br></br>
-      <button onClick={CloseCreateUpdate}>Close</button>
-      <button onClick={handleSave}>Save</button>
-    </div>
-  </Modal>);
+    </Modal>
+  );
 };

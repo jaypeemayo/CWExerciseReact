@@ -7,9 +7,8 @@ import { CreateEditProduct } from "../CreateEditProduct/CreateEditProduct";
 import { MessageBox } from "../../../common/MessageBox";
 import { IProduct } from "..";
 import { IProductTableInfo } from ".";
-
-
-
+import 'bootstrap/dist/css/bootstrap.min.css';
+import Button from 'react-bootstrap/Button';
 
 export const ProductPage: React.FunctionComponent = () => {
   const defaultParam = {
@@ -40,11 +39,11 @@ export const ProductPage: React.FunctionComponent = () => {
   }, [pageParam])
 
   const showMessageBox = (title: string, message: string) => {
-    return setModal(<MessageBox title={title} buttonSet={<button onClick={() => { setModal(null) }}>Close</button>}>{message}</MessageBox>);
+    return setModal(<MessageBox title={title} buttonSet={<button className="btn btn-primary" onClick={() => { setModal(null) }}>Close</button>}>{message}</MessageBox>);
   }
 
   const showConfirmationBox = (id: number, title: string, message: string) => {
-    return setModal(<MessageBox title={title} buttonSet={<><button onClick={() => { handleDelete(id); setModal(null); }}>Yes</button><button onClick={() => { setModal(null) }}>No</button></>}>{message}</MessageBox>);
+    return setModal(<MessageBox title={title} buttonSet={<><button className="btn btn-primary" onClick={() => { handleDelete(id); setModal(null); }}>Yes</button><button className="btn btn-secondary" onClick={() => { setModal(null) }}>No</button></>}>{message}</MessageBox>);
   }
 
   const showCreateEditProduct = (productToEdit: IProduct) => {
@@ -99,8 +98,10 @@ export const ProductPage: React.FunctionComponent = () => {
 
   return (
     <div>
-      <div>
-        <button onClick={() => showCreateEditProduct(null)}>Create Product</button>
+      <div className="container">
+        <h5 className="pt-5 pb-1">
+          Product Management System
+        </h5>
         <Table columnNames={["ProductID", "Name", "Price", "Type", "Active", ""]}
           sortedColumnName={pageParam.columnToSort}
           isAscending={pageParam.sortDirection ? true : false}
@@ -109,8 +110,14 @@ export const ProductPage: React.FunctionComponent = () => {
             {productsTableInfo.products.map((product, i) => <ProductRow OnEdit={showCreateEditProduct} OnDelete={(id) => { showConfirmationBox(id, "Delete Product", "Are you sure you want to delete the product?") }} key={i} {...product} />)}
           </>
         </Table>
-        <Pagination count={productsTableInfo.numberOfPages} page={pageParam.pageNumber} shape="rounded" onChange={handlePageChange} />
+        <div className={"d-flex justify-content-end"}>
+          <Pagination count={productsTableInfo.numberOfPages} page={pageParam.pageNumber} shape="rounded" onChange={handlePageChange} />
+        </div>
+        <div className={"d-flex justify-content-center"}>
+          <Button variant="primary" onClick={() => showCreateEditProduct(null)}>Create Product</Button>
+        </div>
       </div>
+
       {modal}
 
     </div>
